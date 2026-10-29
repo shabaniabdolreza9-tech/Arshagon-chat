@@ -15,6 +15,18 @@ button,input{font:inherit}button{cursor:pointer}.wrap{width:min(1000px,92%);marg
 <section class="hero"><div class="pill">✦ فضای گفت‌وگوی ناشناس</div><h2>حرفی داری؟<br><span class="gradient">اینجا راحت بگو.</span></h2><p>اتاق گفت‌وگو بساز، براش رمز انتخاب کن و کدش رو به اشتراک بذار. طراحی شیشه‌ای، نورهای نئونی و حالت روشن و تاریک.</p></section>
 <main class="grid"><section class="card"><h3>✦ ساخت اتاق گفت‌وگو</h3><p class="muted">نام اتاق و رمز نمایشی خودت رو وارد کن.</p><form id="create"><div class="field"><label for="name">اسم اتاق</label><input id="name" maxlength="40" placeholder="مثلاً حرف‌های بی‌نام" required></div><div class="field"><label for="pass">رمز اتاق</label><input id="pass" type="password" minlength="4" maxlength="64" placeholder="حداقل ۴ کاراکتر" required></div><button class="btn primary full">ساخت اتاق من ↗</button></form><div class="result" id="result"><b>کد نمایشی اتاق:</b><code id="code"></code><button class="btn" id="copy">کپی کد</button></div><p class="note">رمز اتاق به‌صورت هش‌شده ذخیره می‌شود. کد اتاق و رمز را فقط با کسانی به اشتراک بگذار که می‌خواهی وارد شوند.</p></section>
 <section class="card"><h3>↗ ورود به اتاق</h3><p class="muted">کد و رمز اتاقی را وارد کن که دوستت ساخته.</p><form id="join"><div class="field"><label for="joinCode">کد اتاق</label><input id="joinCode" maxlength="10" placeholder="مثلاً A1B2C3D4E5" required></div><div class="field"><label for="joinPass">رمز اتاق</label><input id="joinPass" type="password" maxlength="64" placeholder="رمز اتاق" required></div><div class="field"><label for="nickname">اسم نمایشی (اختیاری)</label><input id="nickname" maxlength="24" placeholder="ناشناس"></div><button class="btn primary full">ورود به اتاق ←</button></form><div class="features"><div class="feature"><b>🔒 اتاق رمزدار</b><span>برای ورود، هم کد اتاق و هم رمز لازم است.</span></div><div class="feature"><b>📱 گفت‌وگو بین دستگاه‌ها</b><span>پیام‌ها از پایگاه‌داده بارگیری می‌شوند.</span></div></div></section></main>
+<section class="card" id="chatPanel" style="display:none;grid-column:1/-1;margin-top:18px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+<div><h3 id="chatTitle">اتاق گفت‌وگو</h3><p class="muted" style="margin:4px 0">کد اتاق: <b id="activeCode" dir="ltr"></b></p></div>
+<button type="button" class="btn" id="leaveChat">خروج از اتاق</button>
+</div>
+<div id="messages" aria-live="polite" style="display:grid;gap:9px;max-height:360px;overflow:auto;padding:10px 0;margin:10px 0"></div>
+<form id="sendForm" style="display:flex;gap:8px;align-items:center">
+<input id="messageInput" maxlength="1000" autocomplete="off" placeholder="پیامت رو بنویس..." required style="min-width:0;flex:1;padding:13px;border:1px solid var(--line);border-radius:12px;background:#ffffff08;color:var(--text)">
+<button class="btn primary" type="submit">ارسال ↗</button>
+</form>
+<p class="note">برای دیدن پیام‌های دوستت، او هم باید با کد و رمز همین اتاق وارد شود. اطلاعات شخصی یا رمزهای مهم را نفرست.</p>
+</section>
 <footer><span>© Arshagon · چت ناشناس</span><span>گفت‌وگوی محترمانه، بدون انتشار اطلاعات حساس</span></footer></div><div class="toast" id="toast"></div>
 <script>
 const $=id=>document.getElementById(id);function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2600)}
