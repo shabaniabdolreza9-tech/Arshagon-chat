@@ -1,37 +1,67 @@
 <!doctype html>
-<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ویرایشگر اَرشاگون</title>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ویرایشگر اَرشاگون</title>
 <style>
-:root{color-scheme:dark;--bg:#10100c;--panel:#1b1b13;--line:#ffe14c40;--gold:#ffe14c;--text:#f4f1df;--muted:#aaa88f}
+:root{color-scheme:dark;--bg:#10100c;--panel:#1b1b13;--line:#ffe14c55;--gold:#ffe14c;--text:#f4f1df;--muted:#aaa88f}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#ffe14c16,transparent 35%),var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
-header{position:sticky;top:0;z-index:5;background:#12120fee;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:13px 4%;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+header{position:sticky;top:0;z-index:5;background:#12120fee;border-bottom:1px solid var(--line);padding:13px 4%;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .brand{font-weight:900}.brand span{color:var(--gold)}.actions{display:flex;gap:8px;flex-wrap:wrap}button{font:inherit;border:1px solid var(--line);border-radius:11px;padding:10px 13px;background:var(--panel);color:var(--text);cursor:pointer}button.primary{background:var(--gold);color:#19180d;font-weight:800}
-.info{padding:12px 4%;font-size:12px;line-height:2;color:var(--muted)}.info b{color:var(--gold)}
-#status{color:var(--gold);margin-right:8px}.frame{width:min(1200px,96%);height:calc(100vh - 160px);min-height:500px;margin:0 auto 30px;border:1px solid var(--line);border-radius:17px;overflow:hidden;background:#17170f}iframe{width:100%;height:100%;border:0;background:#10100c}
-@media(max-width:600px){header{align-items:flex-start}.brand{width:100%}.frame{height:calc(100vh - 210px);min-height:440px}}
-</style></head><body>
+.info{padding:12px 4%;font-size:12px;line-height:2;color:var(--muted)}.info b{color:var(--gold)}#status{display:block;color:var(--gold);margin-top:5px}
+.frame{width:min(1200px,96%);height:calc(100vh - 170px);min-height:460px;margin:0 auto 30px;border:1px solid var(--line);border-radius:17px;overflow:hidden;background:#17170f}iframe{width:100%;height:100%;border:0;background:#10100c}
+@media(max-width:600px){header{align-items:flex-start}.brand{width:100%}.frame{height:calc(100vh - 220px);min-height:430px}}
+</style></head>
+<body>
 <header><div class="brand">اَرشاگون <span>/ ویرایشگر سایت</span></div><div class="actions">
 <button id="edit">✎ شروع ویرایش</button><button id="save">ذخیره روی همین دستگاه</button><button id="reset">بازگشت به نسخه اصلی</button><button class="primary" id="download">دانلود فایل نهایی</button>
 </div></header>
-<div class="info">۱) «شروع ویرایش» را بزن. ۲) روی نوشته‌های پیش‌نمایش بزن و متن را عوض کن. ۳) برای نگه‌داشتن تغییرات روی همین مرورگر، «ذخیره روی همین دستگاه» را بزن؛ برای دریافت فایل سایت، «دانلود فایل نهایی» را بزن.<br><b>توجه:</b> ذخیره روی همین دستگاه فقط برای خودت است و سایت عمومی را تغییر نمی‌دهد. برای اینکه تغییرات برای همه روی لینک اصلی منتشر شود، باید فایل نهایی در مخزن سایت جایگزین شود.</div>
+<div class="info">۱) «شروع ویرایش» را بزن. ۲) روی نوشته‌های پیش‌نمایش بزن و متن را عوض کن. ۳) برای نگه‌داشتن تغییرات روی همین مرورگر، «ذخیره روی همین دستگاه» را بزن؛ برای دریافت فایل سایت، «دانلود فایل نهایی» را بزن.<br><b>توجه:</b> ذخیره روی همین دستگاه فقط برای خودت است و سایت عمومی را تغییر نمی‌دهد. برای انتشار عمومی باید فایل نهایی در مخزن سایت جایگزین شود.<span id="status">در حال بارگذاری سایت...</span></div>
 <div class="frame"><iframe id="preview" title="پیش‌نمایش زنده"></iframe></div>
 <script>
+(function(){
 const frame=document.getElementById('preview'),editBtn=document.getElementById('edit'),status=document.getElementById('status');
-let source='',editing=false;
-function msg(t){let s=document.getElementById('status');if(!s){s=document.createElement('span');s.id='status';document.querySelector('.info').appendChild(s)}s.textContent=t}
-async function load(){try{
- const saved=localStorage.getItem('arshagon_ads_draft');
- const res=await fetch('https://raw.githubusercontent.com/shabaniabdolreza9-tech/Arshagon-chat/arshagon-ads-design/index.html?cache='+Date.now());
- if(!res.ok)throw new Error('network');
- source= saved || await res.text();
- frame.srcdoc=source;msg(saved?'پیش‌نویس ذخیره‌شده بارگذاری شد.':'نسخه اصلی بارگذاری شد.');
- }catch(e){msg('بارگذاری ناموفق بود. اتصال اینترنت را بررسی و صفحه را تازه‌سازی کن.');}}
-function setEditable(on){const d=frame.contentDocument;if(!d)return;editing=on;
- const q='h1,h2,h3,p,.eyebrow,.btn,.brand,.poster-title,.poster-foot,.float-tag,.num,.mock-row span,footer span';
- d.querySelectorAll(q).forEach(el=>{el.contentEditable=on?'true':'false';el.style.outline=on?'1px dashed #d6b900':'';el.style.outlineOffset=on?'3px':'';});
- editBtn.textContent=on?'✓ ویرایش فعاله':'✎ شروع ویرایش';msg(on?'حالا روی متن‌ها بزن و تغییر بده.':'ویرایش متوقف شد.');}
-editBtn.onclick=()=>setEditable(!editing);
-document.getElementById('save').onclick=()=>{if(!frame.contentDocument){msg('پیش‌نمایش هنوز آماده نیست.');return}setEditable(false);const html='<!doctype html>\n'+frame.contentDocument.documentElement.outerHTML;localStorage.setItem('arshagon_ads_draft',html);source=html;msg('تغییرات روی همین دستگاه ذخیره شد.');};
-document.getElementById('reset').onclick=()=>{localStorage.removeItem('arshagon_ads_draft');load();msg('نسخه اصلی دوباره بارگذاری شد.');};
-document.getElementById('download').onclick=()=>{if(!frame.contentDocument){msg('پیش‌نمایش آماده نیست.');return}setEditable(false);const html='<!doctype html>\n'+frame.contentDocument.documentElement.outerHTML;const a=document.createElement('a');const u=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));a.href=u;a.download='index.html';a.click();setTimeout(()=>URL.revokeObjectURL(u),1500);msg('فایل index.html دانلود شد.');};
+let editing=false;
+const sourceUrl='https://raw.githubusercontent.com/shabaniabdolreza9-tech/Arshagon-chat/arshagon-ads-design/index.html';
+function msg(t){status.textContent=t;}
+async function load(){
+ try{
+  const saved=localStorage.getItem('arshagon_ads_draft');
+  if(saved){frame.srcdoc=saved;msg('پیش‌نویس ذخیره‌شده بارگذاری شد.');return;}
+  const response=await fetch(sourceUrl+'?v=3');
+  if(!response.ok)throw new Error('HTTP '+response.status);
+  const html=await response.text();
+  if(!html || html.length<1000)throw new Error('فایل سایت خالی دریافت شد');
+  frame.srcdoc=html;
+  msg('سایت آماده است؛ می‌توانی ویرایش را شروع کنی.');
+ }catch(error){
+  msg('بارگذاری سایت انجام نشد ('+error.message+'). اتصال اینترنت را بررسی کن یا صفحه را دوباره باز کن.');
+ }
+}
+function setEditable(on){
+ const d=frame.contentDocument;if(!d){msg('پیش‌نمایش هنوز آماده نیست.');return;}
+ editing=on;
+ const selector='h1,h2,h3,p,.eyebrow,.btn,.brand,.poster-title,.poster-foot,.float-tag,.num,.mock-row span,footer span';
+ d.querySelectorAll(selector).forEach(el=>{el.contentEditable=on?'true':'false';el.style.outline=on?'1px dashed #d6b900':'';el.style.outlineOffset=on?'3px':'';});
+ editBtn.textContent=on?'✓ پایان ویرایش':'✎ شروع ویرایش';
+ msg(on?'حالا روی نوشته‌های پیش‌نمایش بزن و متن را تغییر بده.':'ویرایش متوقف شد.');
+}
+editBtn.addEventListener('click',()=>setEditable(!editing));
+document.getElementById('save').addEventListener('click',()=>{
+ if(!frame.contentDocument || !frame.contentDocument.documentElement){msg('پیش‌نمایش هنوز آماده نیست.');return;}
+ setEditable(false);
+ const html='<!doctype html>\n'+frame.contentDocument.documentElement.outerHTML;
+ localStorage.setItem('arshagon_ads_draft',html);msg('تغییرات فقط روی همین دستگاه ذخیره شد.');
+});
+document.getElementById('reset').addEventListener('click',()=>{localStorage.removeItem('arshagon_ads_draft');load();});
+document.getElementById('download').addEventListener('click',()=>{
+ if(!frame.contentDocument || !frame.contentDocument.documentElement){msg('پیش‌نمایش هنوز آماده نیست.');return;}
+ setEditable(false);
+ const html='<!doctype html>\n'+frame.contentDocument.documentElement.outerHTML;
+ const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));
+ const a=document.createElement('a');a.href=url;a.download='index.html';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+ msg('فایل index.html دانلود شد.');
+});
 load();
+})();
 </script></body></html>
