@@ -28,11 +28,11 @@ iframe{width:100%;height:100%;border:0;background:white}
   روی «فعال‌کردن ویرایش» بزن و بعد متن‌های داخل پیش‌نمایش را لمس کن و تغییر بده. وقتی کارت تمام شد، «دانلود نسخه ویرایش‌شده» را بزن.<br>
   <b>نکته:</b> این صفحه تغییرات را مستقیم روی سایت عمومی منتشر نمی‌کند؛ فایل آماده‌شده را دانلود کن و برای انتشار، در GitHub جایگزین فایل <b>index.html</b> کن. هیچ رمز یا توکن GitHub لازم نیست.
 </div>
-<div class="framewrap"><iframe id="preview" src="./index.html" title="پیش‌نمایش سایت"></iframe></div>
+<div class="framewrap"><iframe id="preview" title="پیش‌نمایش سایت"></iframe></div>
 <div class="toast" id="toast"></div>
 <script>
 const frame=document.getElementById('preview'),edit=document.getElementById('edit'),toast=document.getElementById('toast');
-let editing=false;
+let editing=false;\nasync function loadPreview(){try{const r=await fetch('https://raw.githubusercontent.com/shabaniabdolreza9-tech/Arshagon-chat/arshagon-ads-design/index.html?'+Date.now());if(!r.ok)throw 0;frame.srcdoc=await r.text()}catch(e){say('بارگذاری پیش‌نمایش ناموفق بود؛ صفحه را دوباره باز کن.')}}\nloadPreview();
 function say(t){toast.textContent=t;toast.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toast.style.display='none',3200)}
 function setEdit(on){
  const doc=frame.contentDocument;if(!doc)return;
@@ -49,7 +49,7 @@ function setEdit(on){
  say(on?'حالا متن‌های پیش‌نمایش را لمس کن و تغییر بده.':'ویرایش غیرفعال شد.');
 }
 edit.addEventListener('click',()=>setEdit(!editing));
-document.getElementById('reset').addEventListener('click',()=>{frame.src='./index.html';editing=false;edit.textContent='✎ فعال‌کردن ویرایش';say('نسخه اصلی دوباره بارگذاری شد.')});
+document.getElementById('reset').addEventListener('click',()=>{editing=false;edit.textContent='✎ فعال‌کردن ویرایش';loadPreview();say('نسخه اصلی دوباره بارگذاری شد.')});
 document.getElementById('download').addEventListener('click',()=>{
  try{
   const doc=frame.contentDocument;
