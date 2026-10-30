@@ -1,67 +1,37 @@
 <!doctype html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ویرایشگر اَرشاگون</title>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ویرایشگر اَرشاگون</title>
 <style>
-:root{color-scheme:dark;--bg:#10100c;--panel:#1b1b13;--line:#ffe14c35;--gold:#ffe14c;--text:#f4f1df;--muted:#aaa88f}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#ffe14c12,transparent 35%),var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
-.top{position:sticky;top:0;z-index:10;background:#12120feF;backdrop-filter:blur(15px);border-bottom:1px solid var(--line);padding:14px 4%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.brand{font-weight:900}.brand span{color:var(--gold)}.actions{display:flex;gap:8px;flex-wrap:wrap}
-button{font:inherit;border:1px solid var(--line);border-radius:11px;padding:11px 14px;background:var(--panel);color:var(--text);cursor:pointer}button.primary{background:var(--gold);color:#19180d;font-weight:800;border-color:var(--gold)}
-.info{padding:14px 4%;color:var(--muted);font-size:12px;line-height:2}.info b{color:var(--gold)}
-.framewrap{margin:0 auto 35px;width:min(1200px,96%);height:calc(100vh - 155px);min-height:550px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
-iframe{width:100%;height:100%;border:0;background:white}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#242417;border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:12px;display:none;z-index:20;box-shadow:0 12px 40px #0008}
-@media(max-width:600px){.top{align-items:flex-start}.brand{width:100%}.framewrap{height:calc(100vh - 200px);min-height:450px}}
-</style></head>
-<body>
-<div class="top">
- <div class="brand">اَرشاگون <span> / ویرایشگر سایت</span></div>
- <div class="actions">
-  <button id="edit">✎ فعال‌کردن ویرایش</button>
-  <button id="reset">بارگذاری دوباره</button>
-  <button class="primary" id="download">دانلود نسخه ویرایش‌شده</button>
- </div>
-</div>
-<div class="info">
-  روی «فعال‌کردن ویرایش» بزن و بعد متن‌های داخل پیش‌نمایش را لمس کن و تغییر بده. وقتی کارت تمام شد، «دانلود نسخه ویرایش‌شده» را بزن.<br>
-  <b>نکته:</b> این صفحه تغییرات را مستقیم روی سایت عمومی منتشر نمی‌کند؛ فایل آماده‌شده را دانلود کن و برای انتشار، در GitHub جایگزین فایل <b>index.html</b> کن. هیچ رمز یا توکن GitHub لازم نیست.
-</div>
-<div class="framewrap"><iframe id="preview" title="پیش‌نمایش سایت"></iframe></div>
-<div class="toast" id="toast"></div>
+:root{color-scheme:dark;--bg:#10100c;--panel:#1b1b13;--line:#ffe14c40;--gold:#ffe14c;--text:#f4f1df;--muted:#aaa88f}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#ffe14c16,transparent 35%),var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:5;background:#12120fee;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:13px 4%;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.brand{font-weight:900}.brand span{color:var(--gold)}.actions{display:flex;gap:8px;flex-wrap:wrap}button{font:inherit;border:1px solid var(--line);border-radius:11px;padding:10px 13px;background:var(--panel);color:var(--text);cursor:pointer}button.primary{background:var(--gold);color:#19180d;font-weight:800}
+.info{padding:12px 4%;font-size:12px;line-height:2;color:var(--muted)}.info b{color:var(--gold)}
+#status{color:var(--gold);margin-right:8px}.frame{width:min(1200px,96%);height:calc(100vh - 160px);min-height:500px;margin:0 auto 30px;border:1px solid var(--line);border-radius:17px;overflow:hidden;background:#17170f}iframe{width:100%;height:100%;border:0;background:#10100c}
+@media(max-width:600px){header{align-items:flex-start}.brand{width:100%}.frame{height:calc(100vh - 210px);min-height:440px}}
+</style></head><body>
+<header><div class="brand">اَرشاگون <span>/ ویرایشگر سایت</span></div><div class="actions">
+<button id="edit">✎ شروع ویرایش</button><button id="save">ذخیره روی همین دستگاه</button><button id="reset">بازگشت به نسخه اصلی</button><button class="primary" id="download">دانلود فایل نهایی</button>
+</div></header>
+<div class="info">۱) «شروع ویرایش» را بزن. ۲) روی نوشته‌های پیش‌نمایش بزن و متن را عوض کن. ۳) برای نگه‌داشتن تغییرات روی همین مرورگر، «ذخیره روی همین دستگاه» را بزن؛ برای دریافت فایل سایت، «دانلود فایل نهایی» را بزن.<br><b>توجه:</b> ذخیره روی همین دستگاه فقط برای خودت است و سایت عمومی را تغییر نمی‌دهد. برای اینکه تغییرات برای همه روی لینک اصلی منتشر شود، باید فایل نهایی در مخزن سایت جایگزین شود.</div>
+<div class="frame"><iframe id="preview" title="پیش‌نمایش زنده"></iframe></div>
 <script>
-const frame=document.getElementById('preview'),edit=document.getElementById('edit'),toast=document.getElementById('toast');
-let editing=false;\nasync function loadPreview(){try{const r=await fetch('https://raw.githubusercontent.com/shabaniabdolreza9-tech/Arshagon-chat/arshagon-ads-design/index.html?'+Date.now());if(!r.ok)throw 0;frame.srcdoc=await r.text()}catch(e){say('بارگذاری پیش‌نمایش ناموفق بود؛ صفحه را دوباره باز کن.')}}\nloadPreview();
-function say(t){toast.textContent=t;toast.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toast.style.display='none',3200)}
-function setEdit(on){
- const doc=frame.contentDocument;if(!doc)return;
- editing=on;
- const selectors='h1,h2,h3,p,.eyebrow,.btn,.brand,.poster-title,.poster-foot,.float-tag,.num,.mock-row span,footer span';
- doc.querySelectorAll(selectors).forEach(el=>{
-  if(el.closest('button#theme'))return;
-  el.contentEditable=on?'true':'false';
-  el.style.outline=on?'1px dashed #d6b900':'';
-  el.style.outlineOffset=on?'3px':'';
-  el.style.cursor=on?'text':'';
- });
- edit.textContent=on?'✓ ویرایش روشن است':'✎ فعال‌کردن ویرایش';
- say(on?'حالا متن‌های پیش‌نمایش را لمس کن و تغییر بده.':'ویرایش غیرفعال شد.');
-}
-edit.addEventListener('click',()=>setEdit(!editing));
-document.getElementById('reset').addEventListener('click',()=>{editing=false;edit.textContent='✎ فعال‌کردن ویرایش';loadPreview();say('نسخه اصلی دوباره بارگذاری شد.')});
-document.getElementById('download').addEventListener('click',()=>{
- try{
-  const doc=frame.contentDocument;
-  if(!doc)throw new Error('preview');
-  setEdit(false);
-  const clone=doc.documentElement.cloneNode(true);
-  clone.querySelectorAll('[contenteditable]').forEach(el=>{el.removeAttribute('contenteditable');el.style.outline='';el.style.outlineOffset='';el.style.cursor=''});
-  const html='<!doctype html>\n'+clone.outerHTML;
-  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='index.html';a.click();URL.revokeObjectURL(a.href);
-  say('فایل index.html دانلود شد. برای انتشار باید جایگزین نسخه قبلی شود.');
- }catch(e){say('پیش‌نمایش هنوز آماده نیست؛ چند لحظه بعد دوباره بزن.') }
-});
-frame.addEventListener('load',()=>{editing=false;edit.textContent='✎ فعال‌کردن ویرایش'});
+const frame=document.getElementById('preview'),editBtn=document.getElementById('edit'),status=document.getElementById('status');
+let source='',editing=false;
+function msg(t){let s=document.getElementById('status');if(!s){s=document.createElement('span');s.id='status';document.querySelector('.info').appendChild(s)}s.textContent=t}
+async function load(){try{
+ const saved=localStorage.getItem('arshagon_ads_draft');
+ const res=await fetch('https://raw.githubusercontent.com/shabaniabdolreza9-tech/Arshagon-chat/arshagon-ads-design/index.html?cache='+Date.now());
+ if(!res.ok)throw new Error('network');
+ source= saved || await res.text();
+ frame.srcdoc=source;msg(saved?'پیش‌نویس ذخیره‌شده بارگذاری شد.':'نسخه اصلی بارگذاری شد.');
+ }catch(e){msg('بارگذاری ناموفق بود. اتصال اینترنت را بررسی و صفحه را تازه‌سازی کن.');}}
+function setEditable(on){const d=frame.contentDocument;if(!d)return;editing=on;
+ const q='h1,h2,h3,p,.eyebrow,.btn,.brand,.poster-title,.poster-foot,.float-tag,.num,.mock-row span,footer span';
+ d.querySelectorAll(q).forEach(el=>{el.contentEditable=on?'true':'false';el.style.outline=on?'1px dashed #d6b900':'';el.style.outlineOffset=on?'3px':'';});
+ editBtn.textContent=on?'✓ ویرایش فعاله':'✎ شروع ویرایش';msg(on?'حالا روی متن‌ها بزن و تغییر بده.':'ویرایش متوقف شد.');}
+editBtn.onclick=()=>setEditable(!editing);
+document.getElementById('save').onclick=()=>{if(!frame.contentDocument){msg('پیش‌نمایش هنوز آماده نیست.');return}setEditable(false);const html='<!doctype html>\n'+frame.contentDocument.documentElement.outerHTML;localStorage.setItem('arshagon_ads_draft',html);source=html;msg('تغییرات روی همین دستگاه ذخیره شد.');};
+document.getElementById('reset').onclick=()=>{localStorage.removeItem('arshagon_ads_draft');load();msg('نسخه اصلی دوباره بارگذاری شد.');};
+document.getElementById('download').onclick=()=>{if(!frame.contentDocument){msg('پیش‌نمایش آماده نیست.');return}setEditable(false);const html='<!doctype html>\n'+frame.contentDocument.documentElement.outerHTML;const a=document.createElement('a');const u=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));a.href=u;a.download='index.html';a.click();setTimeout(()=>URL.revokeObjectURL(u),1500);msg('فایل index.html دانلود شد.');};
+load();
 </script></body></html>
